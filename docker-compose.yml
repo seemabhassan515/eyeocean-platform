@@ -1,0 +1,44 @@
+# Local dev infrastructure for EYEOCEAN (Postgres + Meilisearch).
+#
+# This mirrors the same images/ports/volumes previously started via the
+# ad-hoc `docker run` commands behind the `postgres:up` / `meilisearch:up`
+# npm scripts (still kept in package.json for anyone using them directly).
+# The named volumes below match those already in use, so `docker compose
+# up -d` reattaches to the same data instead of creating fresh empty
+# volumes.
+#
+# Env vars (POSTGRES_PASSWORD, MEILI_API_KEY) are read from a `.env` file
+# at the project root — this is a plain docker-compose/Docker CLI feature
+# and is separate from Next.js's own `.env.local` loading. See README.md
+# for details.
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: eyeocean-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}"
+      POSTGRES_DB: eyeocean
+    volumes:
+      - eyeocean_pg_data:/var/lib/postgresql/data
+
+  meilisearch:
+    image: getmeili/meilisearch:latest
+    container_name: eyeocean-meilisearch
+    restart: unless-stopped
+    ports:
+      - "7700:7700"
+    environment:
+      MEILI_MASTER_KEY: "${MEILI_API_KEY:?set MEILI_API_KEY in .env}"
+      MEILI_NO_ANALYTICS: "true"
+    volumes:
+      - eyeocean_meili_data:/meili_data
+
+volumes:
+  eyeocean_pg_data:
+    name: eyeocean_pg_data
+  eyeocean_meili_data:
+    name: eyeocean_meili_data

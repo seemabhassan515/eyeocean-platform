@@ -1,0 +1,243 @@
+// EYEOCEAN commerce data model (Phase 6, extended in 7/8/9).
+//
+// Scope note: Product/Brand/Category/ProductImage/ProductOptionGroup are
+// fully wired (the real catalog, replacing the Phase 2-5 mock array).
+// Customer/Address/Order are real (Phase 7 auth, Phase 8 Stripe checkout).
+// Article is real (Phase 9 Journal). Wishlist/Cart/Review/Collection remain
+// schema-only: cart and wishlist stay client-side, there's no review UI, and
+// Collection has no seed data or pages yet — noted as a gap, not built out,
+// since nothing in Phase 9's scope needed it. SKU-level variant inventory (a
+// matrix of option combinations, each separately stocked) is deferred too:
+// nothing in the UI needs it yet.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Currency {
+  code     String    @id
+  symbol   String
+  products Product[]
+  orders   Order[]
+}
+
+model Brand {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  name        String    @unique
+  description String?
+  products    Product[]
+}
+
+model Category {
+  id       String     @id @default(cuid())
+  slug     String     @unique
+  label    String
+  parentId String?
+  parent   Category?  @relation("CategoryTree", fields: [parentId], references: [id])
+  children Category[] @relation("CategoryTree")
+  products Product[]
+}
+
+model Collection {
+  id       String    @id @default(cuid())
+  slug     String    @unique
+  title    String
+  products Product[] @relation("CollectionProducts")
+}
+
+// Phase 9: The Journal. Real editorial content, not hardcoded strings in a
+// component — same reasoning as moving the product catalog off a static
+// array in Phase 6. No authoring UI exists yet, so new articles go in via
+// prisma/seed.ts for now.
+model Article {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  category    String // e.g. "Design", "Watches", "Culture" — free text, not a relation; too small a set to normalize yet
+  excerpt     String
+  body        String
+  publishedAt DateTime @default(now())
+}
+
+model Product {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  name         String
+  description  String
+  price        Int
+  quantity     Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  currencyCode String
+  currency     Currency @relation(fields: [currencyCode], references: [code])
+  brandId      String
+  brand        Brand    @relation(fields: [brandId], references: [id])
+  categoryId   String
+  category     Category @relation(fields: [categoryId], references: [id])
+
+  images       ProductImage[]
+  optionGroups ProductOptionGroup[]
+  collections  Collection[]         @relation("CollectionProducts")
+  wishlistedBy WishlistItem[]
+  cartedIn     CartItem[]
+  orderedIn    OrderItem[]
+  reviews      Review[]
+
+  @@index([categoryId])
+  @@index([brandId])
+}
+
+model ProductImage {
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  position  Int
+  colorHex  String // placeholder swatch — there's no real photography yet
+
+  @@index([productId])
+}
+
+model ProductOptionGroup {
+  id        String               @id @default(cuid())
+  productId String
+  product   Product              @relation(fields: [productId], references: [id], onDelete: Cascade)
+  label     String // e.g. "Size", "Metal"
+  position  Int
+  values    ProductOptionValue[]
+
+  @@index([productId])
+}
+
+model ProductOptionValue {
+  id       String             @id @default(cuid())
+  groupId  String
+  group    ProductOptionGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  value    String // e.g. "M", "Rose Gold"
+  position Int
+
+  @@index([groupId])
+}
+
+// --- Phase 7: Customer + auth is now wired in. Wishlist/Cart/Order/Review
+// remain schema-only for now — see the Phase 7 note near the bottom of this
+// file for exactly what is and isn't connected. ---
+
+model Customer {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  passwordHash String
+  name         String
+  createdAt    DateTime   @default(now())
+  addresses    Address[]
+  wishlist     Wishlist?
+  carts        Cart[]
+  orders       Order[]
+  reviews      Review[]
+}
+
+model Address {
+  id         String   @id @default(cuid())
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  label      String // e.g. "Home", "Office"
+  line1      String
+  line2      String?
+  city       String
+  region     String?
+  postalCode String?
+  country    String
+  isDefault  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  @@index([customerId])
+}
+
+model Wishlist {
+  id         String         @id @default(cuid())
+  customerId String         @unique
+  customer   Customer       @relation(fields: [customerId], references: [id])
+  items      WishlistItem[]
+}
+
+model WishlistItem {
+  id         String   @id @default(cuid())
+  wishlistId String
+  wishlist   Wishlist @relation(fields: [wishlistId], references: [id], onDelete: Cascade)
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id])
+  addedAt    DateTime @default(now())
+
+  @@unique([wishlistId, productId])
+}
+
+model Cart {
+  id         String     @id @default(cuid())
+  customerId String?
+  customer   Customer?  @relation(fields: [customerId], references: [id])
+  createdAt  DateTime   @default(now())
+  items      CartItem[]
+}
+
+model CartItem {
+  id              String  @id @default(cuid())
+  cartId          String
+  cart            Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  productId       String
+  product         Product @relation(fields: [productId], references: [id])
+  quantity        Int
+  selectedOptions Json?
+}
+
+model Order {
+  id                     String      @id @default(cuid())
+  customerId             String
+  customer               Customer    @relation(fields: [customerId], references: [id])
+  status                 String      @default("pending") // pending -> paid (set by Stripe webhook / success-page fallback)
+  total                  Int
+  currencyCode           String
+  currency               Currency    @relation(fields: [currencyCode], references: [code])
+  stripeCheckoutSessionId String?    @unique
+  stripePaymentIntentId  String?
+  shippingAddress        Json?
+  createdAt              DateTime    @default(now())
+  items                  OrderItem[]
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  price     Int
+}
+
+model Review {
+  id         String   @id @default(cuid())
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id])
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id])
+  rating     Int
+  body       String
+  createdAt  DateTime @default(now())
+
+  @@index([productId])
+}
+
+// Phase 7 scope: Customer + Address are real (signup/login/session, saved
+// addresses).
+// Phase 8 scope: Order is now real too (Stripe Checkout — see
+// src/lib/stripe.ts, src/app/api/checkout, src/app/api/webhooks/stripe).
+// Wishlist/Cart/Review remain schema-only: cart still lives in client state
+// (a signed-in customer's cart is only turned into a real Order at the
+// moment they check out — see src/app/api/checkout/route.ts), and there's
+// no review UI yet.

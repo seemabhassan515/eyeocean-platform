@@ -6,21 +6,36 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "seed:search": "tsx scripts/seed-meilisearch.ts",
+    "meilisearch:up": "docker run -d --name eyeocean-meilisearch -p 7700:7700 -e MEILI_MASTER_KEY=\"${MEILI_API_KEY:?set MEILI_API_KEY first}\" -e MEILI_NO_ANALYTICS=true -v eyeocean_meili_data:/meili_data getmeili/meilisearch:latest",
+    "meilisearch:down": "docker rm -f eyeocean-meilisearch",
+    "postgres:up": "docker run -d --name eyeocean-postgres -p 5432:5432 -e POSTGRES_PASSWORD=\"${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD first}\" -e POSTGRES_DB=eyeocean -v eyeocean_pg_data:/var/lib/postgresql/data postgres:16-alpine",
+    "postgres:down": "docker rm -f eyeocean-postgres",
+    "db:seed": "prisma db seed",
+    "infra:up": "docker compose up -d",
+    "infra:down": "docker compose down"
   },
   "dependencies": {
+    "@prisma/client": "^6.19.3",
+    "meilisearch": "^0.56.0",
     "next": "16.3.6",
+    "prisma": "^6.19.3",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "server-only": "^0.0.1",
+    "stripe": "^22.6.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "dotenv": "^18.0.4",
     "eslint": "^9",
     "eslint-config-next": "16.3.6",
     "tailwindcss": "^4",
+    "tsx": "^4.23.15",
     "typescript": "^5"
   }
 }
