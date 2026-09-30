@@ -14,8 +14,8 @@ export default function Image() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "#0F0F0F",
-          color: "#FBFBFB",
+          backgroundColor: "#1B3A2F",
+          color: "#F5F1E8",
         }}
       >
         <div
@@ -23,7 +23,7 @@ export default function Image() {
             fontSize: 14,
             letterSpacing: 6,
             textTransform: "uppercase",
-            color: "#D4AF37",
+            color: "#D4AF6A",
             marginBottom: 28,
           }}
         >

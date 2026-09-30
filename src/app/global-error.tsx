@@ -30,8 +30,8 @@ export default function GlobalError({
           alignItems: "center",
           justifyContent: "center",
           fontFamily: "system-ui, sans-serif",
-          backgroundColor: "#0f0f0f",
-          color: "#fbfbfb",
+          backgroundColor: "#1b3a2f",
+          color: "#f5f1e8",
           textAlign: "center",
           padding: "24px",
         }}
@@ -42,7 +42,7 @@ export default function GlobalError({
             fontWeight: 500,
             textTransform: "uppercase",
             letterSpacing: "0.14em",
-            color: "#d4af37",
+            color: "#d4af6a",
           }}
         >
           EYEOCEAN
@@ -50,7 +50,7 @@ export default function GlobalError({
         <h1 style={{ marginTop: 12, fontSize: 28, fontWeight: 500 }}>
           Something went wrong
         </h1>
-        <p style={{ marginTop: 12, color: "#8a8a8a", maxWidth: 400 }}>
+        <p style={{ marginTop: 12, color: "#a8a8a8", maxWidth: 400 }}>
           The site hit an unexpected error. Please try again.
         </p>
         <button
@@ -58,8 +58,8 @@ export default function GlobalError({
           style={{
             marginTop: 24,
             padding: "12px 32px",
-            backgroundColor: "#fbfbfb",
-            color: "#0f0f0f",
+            backgroundColor: "#f5f1e8",
+            color: "#1b3a2f",
             border: "none",
             fontSize: 11,
             fontWeight: 500,

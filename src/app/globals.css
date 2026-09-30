@@ -1,24 +1,24 @@
 @import "tailwindcss";
 
 :root {
-  /* Primary */
-  --eo-ivory: #fbfbfb;
+  /* Primary — "Emerald and brass" palette (design-refresh) */
+  --eo-ivory: #f5f1e8;
   --eo-white: #ffffff;
-  --eo-obsidian: #0f0f0f;
-  --eo-black: #171717;
+  --eo-obsidian: #1b3a2f;
+  --eo-black: #0d1f19;
 
   /* Secondary */
-  --eo-taupe: #e8e3dd;
-  --eo-platinum: #e5e5e5;
-  /* #8a8a8a measured 3.33:1 on --eo-ivory — fails WCAG AA (4.5:1) for body
-     text. This darker value gives ~5.1:1 while staying visually "grey". */
-  --eo-grey: #6b6b6b;
-  --eo-champagne: #d4af37;
-  /* --eo-champagne measured 2.03:1 on --eo-ivory — fails WCAG AA badly.
-     It's fine as a decorative/border/dark-background accent (9:1+ on
-     --eo-obsidian) but must never be used for text on a light background.
-     This darker gold gives ~4.7:1 on --eo-ivory for exactly that case. */
-  --eo-champagne-text: #8a6d23;
+  --eo-taupe: #e6dfc9;
+  --eo-platinum: #d9d3bf;
+  /* Measured 5.51:1 on --eo-ivory — passes WCAG AA (4.5:1) for body text,
+     same margin the previous grey held on the old ivory. */
+  --eo-grey: #5c6358;
+  --eo-champagne: #d4af6a;
+  /* --eo-champagne measured 5.99:1 on --eo-obsidian / 8.26:1 on --eo-black —
+     fine as a decorative/border/dark-background accent, but at 1.84:1 on
+     --eo-ivory it fails WCAG AA badly for text on a light background.
+     This deeper bronze gives 5.63:1 on --eo-ivory for exactly that case. */
+  --eo-champagne-text: #7a5a1f;
 
   /* Motion */
   --eo-ease: cubic-bezier(0.22, 1, 0.36, 1);

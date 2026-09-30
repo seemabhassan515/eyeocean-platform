@@ -18,11 +18,11 @@ export default async function Image({ params }: { params: Promise<{ slug: string
           width: "100%",
           height: "100%",
           display: "flex",
-          backgroundColor: "#0F0F0F",
-          color: "#FBFBFB",
+          backgroundColor: "#1B3A2F",
+          color: "#F5F1E8",
         }}
       >
-        <div style={{ width: "42%", height: "100%", backgroundColor: "#E8E3DD", display: "flex" }} />
+        <div style={{ width: "42%", height: "100%", backgroundColor: "#E6DFC9", display: "flex" }} />
         <div
           style={{
             flex: 1,
@@ -37,7 +37,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
               fontSize: 14,
               letterSpacing: 4,
               textTransform: "uppercase",
-              color: "#D4AF37",
+              color: "#D4AF6A",
               marginBottom: 20,
             }}
           >
@@ -46,7 +46,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
           <div style={{ fontSize: 48, fontFamily: "serif", marginBottom: 16, maxWidth: 600 }}>
             {title}
           </div>
-          {price && <div style={{ fontSize: 28, color: "#8A8A8A" }}>{price}</div>}
+          {price && <div style={{ fontSize: 28, color: "#A8A8A8" }}>{price}</div>}
         </div>
       </div>
     ),
