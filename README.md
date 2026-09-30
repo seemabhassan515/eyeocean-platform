@@ -76,8 +76,13 @@ Vercel with a Neon Postgres database. Pushes to `main` auto-deploy via the
 connected GitHub repository. The `vercel-build` script (see `package.json`)
 runs `prisma generate && prisma migrate deploy && prisma db seed && next build`
 so migrations and seed data apply automatically as part of every deploy — no
-manual database step needed. Search (Meilisearch) isn't hosted in production
-yet, so `/api/search` degrades gracefully with a `503` instead of results.
+manual database step needed. Search runs on a hosted Meilisearch Cloud
+instance; if it's ever unreachable, `/api/search` degrades gracefully with a
+`503` instead of crashing.
+
+Non-`main` branches deploy as Vercel Preview Deployments (their own throwaway
+URL, production untouched) — use one for anything you don't want to ship
+immediately, and merge to `main` only once it's reviewed there.
 
 ## Deploy on Vercel
 
