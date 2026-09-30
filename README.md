@@ -69,6 +69,16 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
+## Production
+
+Live at [eyeocean-platform.vercel.app](https://eyeocean-platform.vercel.app), on
+Vercel with a Neon Postgres database. Pushes to `main` auto-deploy via the
+connected GitHub repository. The `vercel-build` script (see `package.json`)
+runs `prisma generate && prisma migrate deploy && prisma db seed && next build`
+so migrations and seed data apply automatically as part of every deploy — no
+manual database step needed. Search (Meilisearch) isn't hosted in production
+yet, so `/api/search` degrades gracefully with a `503` instead of results.
+
 ## Deploy on Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
