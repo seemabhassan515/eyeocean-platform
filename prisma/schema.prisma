@@ -15,8 +15,13 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  // Migrations run better against a direct (non-pooled) connection than
+  // through a pgbouncer-style pooler. Neon's Vercel integration already
+  // provisions POSTGRES_URL_NON_POOLING for exactly this; falls back to
+  // DATABASE_URL locally where there's no pooler in the first place.
+  directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
 model Currency {
