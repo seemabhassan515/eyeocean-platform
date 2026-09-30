@@ -1,4 +1,5 @@
 import "server-only";
+import { cache } from "react";
 import { prisma } from "@/lib/db";
 
 export type BrandSummary = {
@@ -21,6 +22,6 @@ export async function getAllBrands(): Promise<BrandSummary[]> {
   }));
 }
 
-export async function findBrandBySlug(slug: string) {
+export const findBrandBySlug = cache(async function findBrandBySlug(slug: string) {
   return prisma.brand.findUnique({ where: { slug } });
-}
+});

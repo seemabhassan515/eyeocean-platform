@@ -1,4 +1,5 @@
 import "server-only";
+import { cache } from "react";
 import { prisma } from "@/lib/db";
 
 export type JournalArticle = {
@@ -26,7 +27,9 @@ export async function getAllArticles(): Promise<JournalArticle[]> {
   return articles.map(toArticle);
 }
 
-export async function findArticleBySlug(slug: string): Promise<JournalArticle | null> {
+export const findArticleBySlug = cache(async function findArticleBySlug(
+  slug: string
+): Promise<JournalArticle | null> {
   const article = await prisma.article.findUnique({ where: { slug } });
   return article ? toArticle(article) : null;
-}
+});

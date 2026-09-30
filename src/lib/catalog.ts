@@ -1,4 +1,5 @@
 import "server-only";
+import { cache } from "react";
 import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/db";
 import type { CatalogProduct } from "@/lib/catalog-types";
@@ -45,10 +46,12 @@ function toCatalogProduct(product: ProductWithRelations): CatalogProduct {
   };
 }
 
-export async function findProductBySlug(slug: string): Promise<CatalogProduct | null> {
+export const findProductBySlug = cache(async function findProductBySlug(
+  slug: string
+): Promise<CatalogProduct | null> {
   const product = await prisma.product.findUnique({ where: { slug }, include });
   return product ? toCatalogProduct(product) : null;
-}
+});
 
 export async function getProductsByDepartment(departmentSlug: string): Promise<CatalogProduct[]> {
   const products = await prisma.product.findMany({

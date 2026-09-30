@@ -7,6 +7,15 @@ import { absoluteUrl } from "@/lib/site";
 
 export const revalidate = 3600;
 
+// DEPARTMENTS is a fixed, compile-time list (unlike products/brands/articles,
+// which come from the DB and can gain new slugs without a redeploy), so any
+// slug not generated here can never become valid without a code change.
+// Setting dynamicParams = false makes Next.js 404 unknown slugs at the
+// routing layer, before page.tsx (and this segment's loading.tsx Suspense
+// boundary) ever runs — avoiding the "200 with Not Found body" bug that
+// happens when notFound() is thrown after streaming has already started.
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return DEPARTMENTS.map((d) => ({ slug: d.slug }));
 }
