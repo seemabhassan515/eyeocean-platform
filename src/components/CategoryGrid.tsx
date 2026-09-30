@@ -64,7 +64,7 @@ export function CategoryGrid({ products }: { products: CatalogProduct[] }) {
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value as Sort)}
-              className="border border-eo-platinum bg-transparent px-3 py-2 text-sm"
+              className="rounded-eo-sm border border-eo-platinum bg-transparent px-3 py-2 text-sm"
             >
               <option value="newest">Newest</option>
               <option value="price-asc">Price: Low to High</option>

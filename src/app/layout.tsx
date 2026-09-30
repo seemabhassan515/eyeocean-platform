@@ -48,7 +48,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col bg-eo-ivory font-sans text-eo-obsidian">
         <ShellProvider>
-          <div className="bg-eo-obsidian px-6 py-2 text-center text-[11px] uppercase tracking-[0.12em] text-eo-ivory/70">
+          <div className="bg-eo-obsidian px-6 py-1 text-center text-[10px] uppercase tracking-[0.1em] text-eo-ivory/70">
             Preview build — product data, search and checkout are placeholders, not live.
           </div>
           <Header />

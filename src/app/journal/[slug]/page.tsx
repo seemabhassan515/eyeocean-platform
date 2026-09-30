@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { findArticleBySlug, getAllArticles } from "@/lib/journal";
 import { absoluteUrl } from "@/lib/site";
+import { getDemoImage } from "@/lib/demo-images";
 
 export const revalidate = 3600;
 
@@ -88,7 +90,16 @@ export default async function JournalArticlePage(props: PageProps<"/journal/[slu
         {publishedDate}
       </p>
 
-      <div className="mt-8 aspect-[16/9] max-w-[1000px] bg-eo-taupe" />
+      <div className="relative mt-8 aspect-[16/9] max-w-[1000px] overflow-hidden rounded-eo-sm">
+        <Image
+          src={getDemoImage(`journal-hero-${article.slug}`, 1200, 675)}
+          alt={article.title}
+          fill
+          sizes="(min-width: 1024px) 1000px, 100vw"
+          className="object-cover"
+          priority
+        />
+      </div>
 
       <div className="mt-12 max-w-[680px] space-y-6">
         {paragraphs.map((paragraph, index) => (

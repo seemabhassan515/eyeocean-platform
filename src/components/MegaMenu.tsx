@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { MEGA_MENU } from "@/lib/mega-menu";
 import { formatPrice } from "@/lib/format";
 import { useShell } from "@/lib/shell-context";
 import { WishlistIcon } from "@/components/icons/utility-icons";
+import { getDemoImage } from "@/lib/demo-images";
 import type { CatalogProduct } from "@/lib/catalog-types";
 
 // Module-level cache: once a department's featured product has been fetched
@@ -11,11 +13,23 @@ const featuredCache = new Map<string, CatalogProduct | null>();
 
 export function MegaMenu({ slug }: { slug: string }) {
   const content = MEGA_MENU[slug];
-  const { addToCart, toggleWishlist, wishlist } = useShell();
+  const { addToCart, toggleWishlist, wishlist, setActiveDepartment } = useShell();
   const [entered, setEntered] = useState(false);
   const [featured, setFeatured] = useState<CatalogProduct | null>(
     featuredCache.get(slug) ?? null
   );
+
+  // Opened via hover/focus on a header department link (see Header.tsx),
+  // not through the overlay system OverlayRoot's Escape handler covers — so
+  // it needs its own, closing back to the triggering link rather than
+  // leaving a keyboard user stuck with no way to dismiss it.
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setActiveDepartment(null);
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [setActiveDepartment]);
 
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -87,7 +101,15 @@ export function MegaMenu({ slug }: { slug: string }) {
           <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-eo-grey">
             {content.editorial.label}
           </p>
-          <div className="mt-5 aspect-[4/5] bg-eo-taupe" />
+          <div className="relative mt-5 aspect-[4/5] overflow-hidden rounded-eo-sm bg-eo-taupe">
+            <Image
+              src={getDemoImage(`menu-${slug}`, 500, 625)}
+              alt=""
+              fill
+              sizes="240px"
+              className="object-cover"
+            />
+          </div>
           <p className="mt-4 font-display text-xl italic text-eo-obsidian">
             {content.editorial.title}
           </p>

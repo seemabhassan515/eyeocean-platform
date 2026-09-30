@@ -54,7 +54,7 @@ export function Footer() {
                     <li key={link}>
                       <Link
                         href="/brands"
-                        className="text-sm text-eo-obsidian/80 hover:text-eo-obsidian"
+                        className="text-sm text-eo-obsidian/80 transition-colors duration-[var(--eo-duration)] ease-[var(--eo-ease)] hover:text-eo-obsidian"
                       >
                         {link}
                       </Link>
@@ -63,7 +63,7 @@ export function Footer() {
                     <li key={link}>
                       <button
                         type="button"
-                        className="text-sm text-eo-obsidian/80 hover:text-eo-obsidian"
+                        className="text-sm text-eo-obsidian/80 transition-colors duration-[var(--eo-duration)] ease-[var(--eo-ease)] hover:text-eo-obsidian"
                       >
                         {link}
                       </button>
@@ -98,7 +98,7 @@ export function Footer() {
               />
               <button
                 type="submit"
-                className="text-[11px] font-medium uppercase tracking-[0.12em] text-eo-obsidian"
+                className="text-[11px] font-medium uppercase tracking-[0.12em] text-eo-obsidian/70 transition-colors duration-[var(--eo-duration)] ease-[var(--eo-ease)] hover:text-eo-obsidian"
               >
                 Join
               </button>

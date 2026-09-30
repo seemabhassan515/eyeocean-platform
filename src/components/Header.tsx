@@ -28,7 +28,7 @@ export function Header() {
       onMouseLeave={() => setActiveDepartment(null)}
     >
       <div className="hidden border-b border-eo-platinum lg:block">
-        <div className="mx-auto flex max-w-[1600px] items-center justify-between px-8 py-2 text-[11px] uppercase tracking-[0.12em] text-eo-grey">
+        <div className="mx-auto flex max-w-[1600px] items-center justify-between px-8 py-1.5 text-[10px] uppercase tracking-[0.1em] text-eo-grey">
           <div className="flex items-center gap-5">
             <span>United Arab Emirates</span>
             <span>AED</span>
@@ -42,7 +42,7 @@ export function Header() {
         </div>
       </div>
 
-      <div className="relative mx-auto flex max-w-[1600px] items-center justify-between gap-4 px-6 py-5 lg:px-8">
+      <div className="relative mx-auto flex max-w-[1600px] items-center justify-between gap-4 px-6 py-3 lg:px-8">
         <button
           type="button"
           className="p-1 lg:hidden"
@@ -53,10 +53,10 @@ export function Header() {
         </button>
 
         <Link href="/" className="text-eo-obsidian" aria-label="EYEOCEAN, home">
-          <EyeoceanWordmark className="h-4 w-auto lg:h-[18px]" />
+          <EyeoceanWordmark className="h-3.5 w-auto lg:h-4" />
         </Link>
 
-        <nav className="hidden items-center gap-8 lg:flex" aria-label="Departments">
+        <nav className="hidden items-center gap-7 lg:flex" aria-label="Departments">
           {DEPARTMENTS.map((d) => (
             <Link
               key={d.slug}
@@ -76,27 +76,37 @@ export function Header() {
           ))}
         </nav>
 
+        {/* Rendered here (right after the nav that triggers it) rather than
+            at the end of this container so Tab order reaches it before the
+            icon buttons — it's absolutely positioned (top-full in its own
+            className), so this has no effect on where it visually appears. */}
+        {activeDepartment && <MegaMenu key={activeDepartment} slug={activeDepartment} />}
+
         <div className="flex items-center gap-4 text-eo-obsidian">
           <button
             type="button"
             aria-label="Search"
-            className="hidden sm:block"
+            className="hidden transition-opacity hover:opacity-60 sm:block"
             onClick={() => openOverlay("search")}
           >
-            <SearchIcon className="h-[18px] w-[18px]" />
+            <SearchIcon className="h-4 w-4" />
           </button>
-          <Link href="/account" aria-label="Account" className="hidden sm:block">
-            <AccountIcon className="h-[18px] w-[18px]" />
+          <Link
+            href="/account"
+            aria-label="Account"
+            className="hidden transition-opacity hover:opacity-60 sm:block"
+          >
+            <AccountIcon className="h-4 w-4" />
           </Link>
           <button
             type="button"
             aria-label={`Wishlist, ${wishlist.length} item${wishlist.length === 1 ? "" : "s"}`}
-            className="relative hidden sm:block"
+            className="relative hidden transition-opacity hover:opacity-60 sm:block"
             onClick={() => openOverlay("wishlist")}
           >
-            <WishlistIcon className="h-[18px] w-[18px]" />
+            <WishlistIcon className="h-4 w-4" />
             {wishlist.length > 0 && (
-              <span className="absolute -right-1.5 -top-1.5 flex h-4 w-4 items-center justify-center bg-eo-obsidian text-[9px] text-eo-ivory">
+              <span className="absolute -right-1.5 -top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-eo-obsidian text-[9px] text-eo-ivory">
                 {wishlist.length}
               </span>
             )}
@@ -104,19 +114,17 @@ export function Header() {
           <button
             type="button"
             aria-label={`Bag, ${cartCount} item${cartCount === 1 ? "" : "s"}`}
-            className="relative"
+            className="relative transition-opacity hover:opacity-60"
             onClick={() => openOverlay("cart")}
           >
-            <BagIcon className="h-[18px] w-[18px]" />
+            <BagIcon className="h-4 w-4" />
             {cartCount > 0 && (
-              <span className="absolute -right-1.5 -top-1.5 flex h-4 w-4 items-center justify-center bg-eo-obsidian text-[9px] text-eo-ivory">
+              <span className="absolute -right-1.5 -top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-eo-obsidian text-[9px] text-eo-ivory">
                 {cartCount}
               </span>
             )}
           </button>
         </div>
-
-        {activeDepartment && <MegaMenu key={activeDepartment} slug={activeDepartment} />}
       </div>
     </header>
   );

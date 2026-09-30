@@ -1,24 +1,40 @@
 @import "tailwindcss";
 
 :root {
-  /* Primary — "Emerald and brass" palette (design-refresh) */
-  --eo-ivory: #f5f1e8;
+  /* Primary — "Charcoal and sage" palette (design-refresh v2). Deep warm
+     charcoal + warm ivory carry the design; muted sage is a restrained
+     accent only (eyebrow labels, link underlines, active-state icons) —
+     never a large surface. See the second design-refresh review: the first
+     pass (deep emerald as a dominant color) read as "green theme," not a
+     premium neutral palette with a quiet accent. */
+  --eo-ivory: #faf8f3;
   --eo-white: #ffffff;
-  --eo-obsidian: #1b3a2f;
-  --eo-black: #0d1f19;
+  --eo-obsidian: #1c1b19;
+  --eo-black: #0e0d0c;
 
   /* Secondary */
-  --eo-taupe: #e6dfc9;
-  --eo-platinum: #d9d3bf;
-  /* Measured 5.51:1 on --eo-ivory — passes WCAG AA (4.5:1) for body text,
-     same margin the previous grey held on the old ivory. */
-  --eo-grey: #5c6358;
-  --eo-champagne: #d4af6a;
-  /* --eo-champagne measured 5.99:1 on --eo-obsidian / 8.26:1 on --eo-black —
-     fine as a decorative/border/dark-background accent, but at 1.84:1 on
-     --eo-ivory it fails WCAG AA badly for text on a light background.
-     This deeper bronze gives 5.63:1 on --eo-ivory for exactly that case. */
-  --eo-champagne-text: #7a5a1f;
+  --eo-taupe: #efebe3;
+  --eo-platinum: #e3dfd5;
+  /* Measured 6.17:1 on --eo-ivory — passes WCAG AA (4.5:1) for body text
+     with more headroom than either previous palette held. */
+  --eo-grey: #615d55;
+  /* This sage is deliberately tuned to also work as actual text on
+     --eo-obsidian (Hero/ConciergeSection eyebrow labels), not just as a
+     decorative accent — 4.85:1 there, still passing AA. On --eo-ivory it's
+     3.35:1, which is fine for non-text decoration (borders, underlines,
+     which only need 3:1) but NOT for text — see --eo-champagne-text below. */
+  --eo-champagne: #72906a;
+  /* --eo-champagne-text measured 8.79:1 on --eo-ivory — for the one case
+     that needs an accent color as real text on a light background. */
+  --eo-champagne-text: #3f4a39;
+
+  /* Shape */
+  --eo-radius-sm: 2px;
+  --eo-radius: 3px;
+
+  /* Elevation — used sparingly (card hover only); the base design language
+     is borders + whitespace, not shadows. */
+  --eo-shadow: 0 1px 2px rgba(14, 13, 12, 0.04), 0 8px 24px rgba(14, 13, 12, 0.06);
 
   /* Motion */
   --eo-ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -37,14 +53,18 @@
   --color-eo-champagne: var(--eo-champagne);
   --color-eo-champagne-text: var(--eo-champagne-text);
 
+  --radius-eo-sm: var(--eo-radius-sm);
+  --radius-eo: var(--eo-radius);
+  --shadow-eo: var(--eo-shadow);
+
   --font-display: var(--font-cormorant);
   --font-sans: var(--font-inter);
 
-  --text-display: clamp(3.5rem, 8vw, 8rem);
-  --text-display--line-height: 1.02;
+  --text-display: clamp(3.25rem, 7vw, 7.25rem);
+  --text-display--line-height: 1.03;
   --text-display--letter-spacing: -0.01em;
-  --text-heading: clamp(2rem, 4vw, 4rem);
-  --text-heading--line-height: 1.08;
+  --text-heading: clamp(1.75rem, 3.4vw, 3.25rem);
+  --text-heading--line-height: 1.1;
   --text-eyebrow: 0.6875rem;
   --text-eyebrow--letter-spacing: 0.16em;
   --text-micro: 0.6875rem;
@@ -61,6 +81,15 @@ html {
 body {
   background: var(--eo-ivory);
   color: var(--eo-obsidian);
+}
+
+/* Baseline focus ring for every interactive element. Plain CSS (not a
+   Tailwind utility) deliberately — Tailwind v4's outline-none and
+   focus-visible:outline share the same --tw-outline-style variable, which
+   silently breaks this exact pattern when authored as utility classes. */
+:focus-visible {
+  outline: 2px solid var(--eo-obsidian);
+  outline-offset: 2px;
 }
 
 @media (prefers-reduced-motion: reduce) {

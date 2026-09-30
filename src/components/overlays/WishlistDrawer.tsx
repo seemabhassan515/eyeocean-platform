@@ -1,6 +1,8 @@
+import Image from "next/image";
 import { Drawer } from "@/components/overlays/Drawer";
 import { formatPrice } from "@/lib/format";
 import { useShell } from "@/lib/shell-context";
+import { getDemoImage } from "@/lib/demo-images";
 
 export function WishlistDrawer() {
   const { wishlist, toggleWishlist, addToCart, closeOverlay, findProduct } = useShell();
@@ -26,7 +28,9 @@ export function WishlistDrawer() {
         <ul className="flex flex-col gap-6">
           {items.map((product) => (
             <li key={product.id} className="flex gap-4">
-              <div className="h-24 w-20 shrink-0 bg-eo-taupe" />
+              <div className="relative h-24 w-20 shrink-0 overflow-hidden rounded-eo-sm bg-eo-taupe">
+                <Image src={getDemoImage(product.id, 160, 192)} alt="" fill sizes="80px" className="object-cover" />
+              </div>
               <div className="flex flex-1 flex-col">
                 <p className="text-xs text-eo-grey">{product.brand}</p>
                 <p className="text-sm">{product.name}</p>

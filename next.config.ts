@@ -1,6 +1,16 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  images: {
+    // picsum.photos serves stable, real stock photography for design
+    // evaluation only — see src/lib/demo-images.ts. design-refresh branch
+    // only; do not merge this into main without swapping in real product
+    // photography and a matching data model change.
+    remotePatterns: [
+      { protocol: "https", hostname: "picsum.photos" },
+      { protocol: "https", hostname: "fastly.picsum.photos" },
+    ],
+  },
   async headers() {
     return [
       {

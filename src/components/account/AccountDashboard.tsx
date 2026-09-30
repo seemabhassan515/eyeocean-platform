@@ -240,7 +240,7 @@ export function AccountDashboard({
                 <input type="hidden" name="id" value={a.id} />
                 <button
                   type="submit"
-                  className="text-xs uppercase tracking-[0.1em] text-eo-grey hover:text-eo-obsidian"
+                  className="text-xs uppercase tracking-[0.1em] text-eo-grey transition-colors duration-[var(--eo-duration)] ease-[var(--eo-ease)] hover:text-eo-obsidian"
                 >
                   Remove
                 </button>

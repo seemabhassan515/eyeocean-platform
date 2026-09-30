@@ -91,7 +91,7 @@ export default async function CheckoutSuccessPage({
 
       <Link
         href="/account"
-        className="mt-12 inline-block text-[11px] font-medium uppercase tracking-[0.12em] underline decoration-eo-champagne underline-offset-4"
+        className="mt-12 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-eo-sm bg-eo-obsidian px-8 py-4 text-[11px] font-medium uppercase tracking-[0.14em] text-eo-ivory transition-colors duration-[var(--eo-duration)] ease-[var(--eo-ease)] hover:bg-eo-black"
       >
         View in Account
       </Link>

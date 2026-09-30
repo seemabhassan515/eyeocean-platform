@@ -48,7 +48,7 @@ export function ProductPurchasePanel({ product }: { product: CatalogProduct }) {
                   onClick={() =>
                     setSelectedOptions((prev) => ({ ...prev, [variant.label]: option }))
                   }
-                  className={`border px-4 py-2 text-sm transition-colors duration-[var(--eo-duration)] ease-[var(--eo-ease)] ${
+                  className={`rounded-eo-sm border px-4 py-2 text-sm transition-colors duration-[var(--eo-duration)] ease-[var(--eo-ease)] ${
                     isSelected
                       ? "border-eo-obsidian text-eo-obsidian"
                       : "border-eo-platinum text-eo-grey hover:border-eo-obsidian hover:text-eo-obsidian"
@@ -67,7 +67,7 @@ export function ProductPurchasePanel({ product }: { product: CatalogProduct }) {
           Quantity
         </p>
         <div
-          className="mt-3 flex w-fit items-center gap-3 border border-eo-platinum px-3 py-1"
+          className="mt-3 flex w-fit items-center gap-3 rounded-eo-sm border border-eo-platinum px-3 py-1"
           role="group"
           aria-label={`Quantity for ${product.name}`}
         >
@@ -94,7 +94,7 @@ export function ProductPurchasePanel({ product }: { product: CatalogProduct }) {
           aria-label={inWishlist ? "Remove from wishlist" : "Add to wishlist"}
           aria-pressed={inWishlist}
           onClick={() => toggleWishlist(product.id)}
-          className="flex h-[52px] w-[52px] shrink-0 items-center justify-center border border-eo-platinum"
+          className="flex h-13 w-13 shrink-0 items-center justify-center rounded-eo-sm border border-eo-platinum transition-colors hover:border-eo-obsidian"
         >
           <WishlistIcon
             className={`h-4 w-4 ${inWishlist ? "text-eo-champagne-text" : "text-eo-obsidian"}`}

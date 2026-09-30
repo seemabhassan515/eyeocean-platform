@@ -2,10 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { CloseIcon, SearchIcon } from "@/components/icons/utility-icons";
 import { useShell } from "@/lib/shell-context";
 import { searchProvider, type SearchResults } from "@/lib/search";
 import { formatPrice } from "@/lib/format";
+import { getDemoImage } from "@/lib/demo-images";
 
 const POPULAR_SEARCHES = [
   "New Arrivals",
@@ -131,7 +133,9 @@ export function SearchOverlay() {
                     onClick={closeOverlay}
                     className="flex items-center gap-4"
                   >
-                    <div className="h-16 w-14 shrink-0 bg-eo-taupe" />
+                    <div className="relative h-16 w-14 shrink-0 overflow-hidden rounded-eo-sm bg-eo-taupe">
+                      <Image src={getDemoImage(p.id, 112, 128)} alt="" fill sizes="56px" className="object-cover" />
+                    </div>
                     <div>
                       <p className="text-xs text-eo-grey">{p.brand}</p>
                       <p className="text-sm">{p.name}</p>

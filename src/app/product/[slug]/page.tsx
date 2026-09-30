@@ -74,7 +74,7 @@ export default async function ProductPage(props: PageProps<"/product/[slug]">) {
       />
 
       <div className="mt-8 grid grid-cols-1 gap-12 lg:grid-cols-2">
-        <ProductGallery productName={product.name} />
+        <ProductGallery productId={product.id} productName={product.name} />
         <ProductPurchasePanel product={product} />
       </div>
 

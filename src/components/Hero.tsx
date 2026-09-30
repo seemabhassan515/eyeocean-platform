@@ -29,14 +29,14 @@ export function Hero() {
   }, []);
 
   return (
-    <section className="relative flex min-h-[88vh] items-end overflow-hidden bg-eo-obsidian text-eo-ivory">
+    <section className="relative flex min-h-[72vh] items-end overflow-hidden bg-eo-obsidian text-eo-ivory">
       <div
         ref={markRef}
         className="absolute right-[-8%] top-1/2 h-[70vh] w-[70vh] -translate-y-1/2"
       >
         <EyeoceanMonogram decorative className="pointer-events-none h-full w-full text-eo-ivory/[0.05]" />
       </div>
-      <div className="relative mx-auto w-full max-w-[1600px] px-6 pb-20 pt-40 lg:px-8 lg:pb-28">
+      <div className="relative mx-auto w-full max-w-[1600px] px-6 pb-16 pt-24 lg:px-8 lg:pb-20">
         <p className="text-eyebrow font-medium uppercase tracking-[0.16em] text-eo-champagne">
           A Global Luxury Commerce Platform
         </p>

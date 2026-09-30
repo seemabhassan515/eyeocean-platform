@@ -48,7 +48,7 @@ export default async function BrandPage(props: PageProps<"/brand/[slug]">) {
       </p>
       <h1 className="mt-3 text-heading font-display font-medium">{brand.name}</h1>
       {brand.description && (
-        <p className="mt-3 max-w-lg text-eo-grey">{brand.description}</p>
+        <p className="mt-3 max-w-lg text-sm leading-6 text-eo-grey">{brand.description}</p>
       )}
 
       <div className="mt-12">

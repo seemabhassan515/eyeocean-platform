@@ -1,7 +1,9 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { getAllBrands } from "@/lib/brands";
 import { absoluteUrl } from "@/lib/site";
+import { getDemoImage } from "@/lib/demo-images";
 
 const description = "The houses and studios carried by EYEOCEAN.";
 const url = absoluteUrl("/brands");
@@ -35,17 +37,25 @@ export default async function BrandsPage() {
           <Link
             key={brand.slug}
             href={`/brand/${brand.slug}`}
-            className="group flex aspect-[4/3] flex-col justify-end bg-eo-taupe p-6 text-eo-obsidian"
+            className="group relative flex aspect-[4/3] flex-col justify-end overflow-hidden rounded-eo-sm p-6 text-white"
           >
-            <span className="text-lg font-display font-medium transition-transform duration-[var(--eo-duration)] ease-[var(--eo-ease)] group-hover:-translate-y-1">
+            <Image
+              src={getDemoImage(`brand-${brand.slug}`, 900, 675)}
+              alt=""
+              fill
+              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+              className="object-cover transition-transform duration-[var(--eo-duration)] ease-[var(--eo-ease)] group-hover:scale-[1.04]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-black/0" />
+            <span className="relative text-lg font-display font-medium transition-transform duration-[var(--eo-duration)] ease-[var(--eo-ease)] group-hover:-translate-y-1">
               {brand.name}
             </span>
             {brand.description && (
-              <p className="mt-2 text-sm leading-6 text-eo-obsidian/80">
+              <p className="relative mt-2 text-sm leading-6 text-white/85">
                 {brand.description}
               </p>
             )}
-            <p className="mt-3 text-[11px] uppercase tracking-[0.12em] text-eo-obsidian/70">
+            <p className="relative mt-3 text-[11px] uppercase tracking-[0.12em] text-white/70">
               {brand.productCount} {brand.productCount === 1 ? "piece" : "pieces"}
             </p>
           </Link>

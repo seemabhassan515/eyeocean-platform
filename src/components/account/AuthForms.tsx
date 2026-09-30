@@ -21,8 +21,10 @@ export function AuthForms() {
         <button
           type="button"
           onClick={() => setTab("login")}
-          className={`pb-4 text-[11px] font-medium uppercase tracking-[0.14em] ${
-            tab === "login" ? "border-b border-eo-obsidian text-eo-obsidian" : "text-eo-grey"
+          className={`pb-4 text-[11px] font-medium uppercase tracking-[0.14em] transition-colors duration-[var(--eo-duration)] ease-[var(--eo-ease)] ${
+            tab === "login"
+              ? "border-b border-eo-obsidian text-eo-obsidian"
+              : "text-eo-grey hover:text-eo-obsidian"
           }`}
         >
           Sign In
@@ -30,8 +32,10 @@ export function AuthForms() {
         <button
           type="button"
           onClick={() => setTab("register")}
-          className={`pb-4 text-[11px] font-medium uppercase tracking-[0.14em] ${
-            tab === "register" ? "border-b border-eo-obsidian text-eo-obsidian" : "text-eo-grey"
+          className={`pb-4 text-[11px] font-medium uppercase tracking-[0.14em] transition-colors duration-[var(--eo-duration)] ease-[var(--eo-ease)] ${
+            tab === "register"
+              ? "border-b border-eo-obsidian text-eo-obsidian"
+              : "text-eo-grey hover:text-eo-obsidian"
           }`}
         >
           Create Account
